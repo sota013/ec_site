@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Company extends Model
 {
-        public function users(): HasMany
+    protected $fillable = ['company_name'];
+
+    public function users(): HasMany
     {
         return $this->hasMany(User::class);
     }
 
-        public function products(): HasMany
+    public function products(): HasMany
     {
         return $this->hasMany(Product::class);
     }

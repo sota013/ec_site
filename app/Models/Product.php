@@ -8,22 +8,32 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
-        public function user(): BelongsTo
+    protected $fillable = [
+        'user_id',
+        'company_id',
+        'product_name',
+        'price',
+        'stock',
+        'description',
+        'img_path',
+    ];
+
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-        public function company(): BelongsTo
+    public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
-        public function sales(): HasMany
+    public function sales(): HasMany
     {
         return $this->hasMany(Sale::class);
     }
 
-        public function likes(): HasMany
+    public function likes(): HasMany
     {
         return $this->hasMany(Like::class);
     }
