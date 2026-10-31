@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProductDetailController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
@@ -91,3 +92,12 @@ Route::post('/products/{id}/purchase', [PurchaseController::class, 'store'])
 
 Route::post('/contact', [ContactController::class, 'send'])
     ->name('contact.send');
+
+Route::post('/logout', function (\Illuminate\Http\Request $request) {
+    Auth::logout();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect()->route('products.index');
+})->middleware('auth')->name('logout');
