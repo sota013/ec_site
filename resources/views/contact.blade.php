@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>お問い合わせ</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'お問い合わせ')
+
+@section('content')
+
     <h1>お問い合わせ</h1>
 
     <form action="{{ route('contact.send') }}" method="POST">
@@ -58,5 +56,5 @@
     <p>
     <a href="{{ route('products.index') }}">戻る</a>
     </p>
-</body>
-</html>
+
+@endsection

@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>出品商品詳細</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', '出品商品詳細')
+
+@section('content')
+
     <h1>出品商品詳細</h1>
 
     <h2>{{ $product->product_name }}</h2>
@@ -39,5 +38,5 @@
     <p>
         <a href="{{ route('mypage') }}">マイページへ戻る</a>
     </p>
-</body>
-</html>
+
+@endsection

@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>マイページ</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'マイページ')
+
+@section('content')
+
     <h1>マイページ</h1>
 
     <p>
@@ -65,5 +64,4 @@
         <a href="{{ route('contact') }}">お問い合わせ</a>
     </p>
 
-</body>
-</html>
+@endsection

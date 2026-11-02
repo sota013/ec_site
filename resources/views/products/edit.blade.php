@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>商品編集</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', '商品編集')
+
+@section('content')
+
     <h1>商品編集</h1>
 
     <form action="{{ route('products.update', $product->id) }}" method="POST">
@@ -46,5 +45,5 @@
     <p>
         <a href="{{ route('mypage') }}">マイページへ戻る</a>
     </p>
-</body>
-</html>
+
+@endsection

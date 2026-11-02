@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>購入確認</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', '購入確認')
+
+@section('content')
+
     <h1>購入確認</h1>
 
     <h2>{{ $product->product_name }}</h2>
@@ -47,5 +45,5 @@
     <p>
         <a href="{{ route('products.show', $product->id) }}">商品詳細に戻る</a>
     </p>
-</body>
-</html>
+
+@endsection

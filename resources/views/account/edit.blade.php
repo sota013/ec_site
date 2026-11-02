@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>アカウント編集</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'アカウント編集')
+
+@section('content')
+
     <h1>アカウント編集</h1>
 
     <form action="{{ route('account.update') }}" method="POST">
@@ -35,5 +34,5 @@
     <p>
         <a href="{{ route('mypage') }}">マイページへ戻る</a>
     </p>
-</body>
-</html>
+
+@endsection

@@ -6,11 +6,6 @@
 
     <h1>商品一覧</h1>
 
-    <p>
-        <a href="{{ route('contact') }}">お問い合わせ</a>
-    </p>
-
-
     <form action="{{ route('products.index') }}" method="GET">
     <input
         type="text"
