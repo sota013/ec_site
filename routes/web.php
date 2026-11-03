@@ -16,7 +16,7 @@ use App\Http\Controllers\AccountEditController;
 use App\Http\Controllers\ContactController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('products.index');
 });
 
 Route::get('/products', [ProductController::class, 'index'])

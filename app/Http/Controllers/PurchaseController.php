@@ -11,7 +11,9 @@ class PurchaseController extends Controller
 {
     public function create($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::where('id', $id)
+            ->where('stock', '>', 0)
+            ->firstOrFail();
     
         return view('products.purchase', compact('product'));
     }
@@ -26,6 +28,12 @@ class PurchaseController extends Controller
             $product = Product::where('id', $id)
                 ->lockForUpdate()
                 ->firstOrFail();
+
+            if ($product->stock <= 0) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'quantity' => '在庫切れのため購入できません。',
+                ]);
+            }
 
             if ($validated['quantity'] > $product->stock) {
                 throw \Illuminate\Validation\ValidationException::withMessages([

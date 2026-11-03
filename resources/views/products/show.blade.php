@@ -34,20 +34,17 @@
     <p style="color: green;">{{ session('success') }}</p>
 @endif
 
-    
-    @if (auth()->check())
-        @if ($isLiked)
-            <p>お気に入り登録済み</p>
-        @else
-            <form action="{{ route('products.like', $product->id) }}" method="POST">
-                @csrf
-                <button type="submit">お気に入り登録</button>
-            </form>
-        @endif
-    @else
-        <p>お気に入り登録にはログインが必要です。</p>
-        <a href="{{ route('login') }}">ログイン</a>
-    @endif
+@if ($isLiked)
+    <form action="{{ route('products.like', $product->id) }}" method="POST">
+        @csrf
+        <button type="submit">お気に入り解除</button>
+    </form>
+@else
+    <form action="{{ route('products.like', $product->id) }}" method="POST">
+        @csrf
+        <button type="submit">お気に入り登録</button>
+    </form>
+@endif
 
     <p>
         <a href="{{ route('products.index') }}">商品一覧に戻る</a>
