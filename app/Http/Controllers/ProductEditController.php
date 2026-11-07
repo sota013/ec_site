@@ -25,8 +25,22 @@ class ProductEditController extends Controller
             'price' => ['required', 'integer', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
             'description' => ['required', 'string'],
-            'img_path' => ['nullable', 'string', 'max:255'],
+            'img_path' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:2048',
+            ],
         ]);
+
+        if ($request->hasFile('img_path')) {
+            $imagePath = $request->file('img_path')
+                ->store('products', 'public');
+
+            $validated['img_path'] = $imagePath;
+        } else {
+            unset($validated['img_path']);
+        }
 
         $product->update($validated);
 

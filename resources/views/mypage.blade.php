@@ -4,64 +4,115 @@
 
 @section('content')
 
-    <h1>マイページ</h1>
+<div class="mypage-container">
 
-    <p>
-        <a href="{{ route('account.edit') }}">アカウント編集</a>
-    </p>
+    <h1 class="page-title">マイページ</h1>
 
-    <h2>アカウント情報</h2>
+    <section class="mypage-section">
+        <div class="section-header">
+            <a href="{{ route('account.edit') }}" class="mypage-button">
+                アカウント編集
+            </a>
+        </div>
+        <div class="account-info">
+            <div class="account-info-left">
+                <p>ユーザ名：{{ $user->name }}</p>
+                <p>Eメール：{{ $user->email }}</p>
+            </div>
+            <div class="account-info-right">
+                <p>名前：{{ $user->name_kanji }}</p>
+                <p>カナ：{{ $user->name_kana }}</p>
+            </div>
+        </div>
+    </section>
 
-    <p>名前：{{ $user->name_kanji }}</p>
-    <p>カナ：{{ $user->name_kana }}</p>
-    <p>メールアドレス：{{ $user->email }}</p>
+    <section class="mypage-section">
+        <h2>＜出品商品＞</h2>
+        <div class="section-header">
+            <a href="{{ route('products.create') }}" class="mypage-button">
+                新規登録
+            </a>
+        </div>
 
-    <h2>出品商品</h2>
+        @if ($products->isEmpty())
+            <p>出品した商品はありません。</p>
+        @else
 
-    @if ($products->isEmpty())
-        <p>出品した商品はありません。</p>
-    @else
-        <ul>
-            @foreach ($products as $product)
-                <li>
-                    {{ $product->product_name }}
-                    - {{ number_format($product->price) }}円
-                    （在庫：{{ $product->stock }}）
+            <div class="mypage-table-wrapper">
+                <table class="mypage-table">
+                    <thead>
+                        <tr>
+                            <th>商品番号</th>
+                            <th>商品名</th>
+                            <th>商品説明</th>
+                            <th>料金(¥)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($products as $product)
+                            <tr>
+                                <td>{{ $product->id }}</td>
+                                <td>{{ $product->product_name }}</td>
+                                <td>{{ $product->description }}</td>
+                                <td>{{ number_format($product->price) }}</td>
+                                <td>
+                                    <a
+                                        href="{{ route('mypage.products.show', $product->id) }}"
+                                        class="detail-button"
+                                    >
+                                        詳細
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
+    </section>
 
-                    <a href="{{ route('mypage.products.show', $product->id) }}">
-                        詳細
-                    </a>
-                </li>
-            @endforeach
-        </ul>
-    @endif
+    <section class="mypage-section">
+        <h2>＜購入した商品＞</h2>
 
-    <p>
-        <a href="{{ route('products.create') }}">新規登録</a>
-    </p>
+        @if ($sales->isEmpty())
+            <p>購入した商品はありません。</p>
+        @else
 
-    <h2>購入した商品</h2>
+            <div class="mypage-table-wrapper">
+                <table class="mypage-table">
+                    <thead>
+                        <tr>
+                            <th>商品名</th>
+                            <th>商品説明</th>
+                            <th>料金(¥)</th>
+                            <th>個数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($sales as $sale)
+                            <tr>
+                                <td>{{ $sale->product->product_name }}</td>
+                                <td>{{ $sale->product->description }}</td>
+                                <td>{{ number_format($sale->product->price) }}</td>
+                                <td>{{ $sale->quantity }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
+    </section>
 
-    @if ($sales->isEmpty())
-        <p>購入した商品はありません。</p>
-    @else
-        <ul>
-            @foreach ($sales as $sale)
-                <li>
-                    {{ $sale->product->product_name }}
-                    - {{ number_format($sale->product->price) }}円
-                    （購入個数：{{ $sale->quantity }}個）
-                </li>
-            @endforeach
-        </ul>
-    @endif
+    <div class="mypage-links">
+        <a href="{{ route('products.index') }}" class="back-link">
+            商品一覧へ戻る
+        </a>
+        <a href="{{ route('contact') }}" class="back-link">
+            お問い合わせ
+        </a>
+    </div>
 
-    <p>
-        <a href="{{ route('products.index') }}">商品一覧へ戻る</a>
-    </p>
-
-    <p>
-        <a href="{{ route('contact') }}">お問い合わせ</a>
-    </p>
+</div>
 
 @endsection

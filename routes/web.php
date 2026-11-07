@@ -31,6 +31,7 @@ Route::post('/products/create', [ProductCreateController::class, 'store'])
     ->name('products.store');
 
 Route::get('/products/{id}', [ProductDetailController::class, 'show'])
+    ->whereNumber('id')
     ->name('products.show');
 
 Route::get('/register', [RegisterController::class, 'show'])

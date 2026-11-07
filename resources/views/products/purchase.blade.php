@@ -1,49 +1,70 @@
 @extends('layouts.app')
 
-@section('title', '購入確認')
+@section('title', '購入画面')
 
 @section('content')
 
-    <h1>購入確認</h1>
+<div class="purchase-container">
+    <h1 class="page-title">購入画面</h1>
+    <div class="purchase-detail">
+        <div class="purchase-info">
+            <p>商品名：{{ $product->product_name }}</p>
+            <p>説明：{{ $product->description }}</p>
+            <div class="purchase-image">
+                <img
+                    src="{{ asset('storage/' . $product->img_path) }}"
+                    alt="{{ $product->product_name }}"
+                >
+            </div>
 
-    <h2>{{ $product->product_name }}</h2>
+            @if ($product->stock > 0)
 
-    <img
-        src="{{ asset('storage/' . $product->img_path) }}"
-        alt="{{ $product->product_name }}"
-        width="200"
-    >
+                <form
+                    action="{{ route('products.purchase', $product->id) }}"
+                    method="POST"
+                    class="purchase-form"
+                >
+                    @csrf
 
-    <p>価格：{{ number_format($product->price) }}円</p>
-    <p>在庫：{{ $product->stock }}個</p>
+                    <input
+                        type="number"
+                        id="quantity"
+                        name="quantity"
+                        min="1"
+                        max="{{ $product->stock }}"
+                        value="{{ old('quantity', 1) }}"
+                        required
+                    >
 
-    @if ($product->stock > 0)
-        <form action="{{ route('products.purchase', $product->id) }}" method="POST">
-            @csrf
+                    @error('quantity')
+                        <p class="error-message">{{ $message }}</p>
+                    @enderror
 
-            <label for="quantity">購入数量：</label>
-            <input
-                type="number"
-                id="quantity"
-                name="quantity"
-                min="1"
-                max="{{ $product->stock }}"
-                value="1"
-                required
-            >
+                    <p>金額：￥{{ number_format($product->price) }}</p>
+                    <p>残り：{{ $product->stock }}</p>
+                    <p>会社：{{ $product->company->company_name ?? '未設定' }}</p>
+                    <button type="submit" class="purchase-button">
+                        購入する
+                    </button>
+                    <a
+                        href="{{ route('products.show', $product->id) }}"
+                        class="back-link"
+                    >
+                        戻る
+                    </a>
+                </form>
+            @else
 
-            @error('quantity')
-                <p style="color: red;">{{ $message }}</p>
-            @enderror
-
-            <button type="submit">購入を確定する</button>
-        </form>
-    @else
-        <p>在庫切れのため購入できません。</p>
-    @endif
-
-    <p>
-        <a href="{{ route('products.show', $product->id) }}">商品詳細に戻る</a>
-    </p>
+                <p>在庫切れのため購入できません。</p>
+                <a
+                    href="{{ route('products.show', $product->id) }}"
+                    class="back-link"
+                >
+                    戻る
+                </a>
+            @endif
+        </div>
+    </div>
+</div>
 
 @endsection

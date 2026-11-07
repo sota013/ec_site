@@ -4,50 +4,59 @@
 
 @section('content')
 
-    <h1>商品詳細</h1>
+<div class="product-detail-container">
 
-    <img
-        src="{{ asset('storage/' . $product->img_path) }}"
-        alt="{{ $product->product_name }}"
-        width="300"
-    >
+    <h1 class="page-title">商品詳細</h1>
+    <div class="product-detail">
+        <div class="product-detail-info">
+            <p>商品名：{{ $product->product_name }}</p>
+            <p>説明：{{ $product->description }}</p>
+            <div class="product-detail-image">
+                <img
+                    src="{{ asset('storage/' . $product->img_path) }}"
+                    alt="{{ $product->product_name }}"
+                >
+            </div>
+            <p>金額：￥{{ number_format($product->price) }}</p>
+            <p>会社：{{ $product->company->company_name ?? '未設定' }}</p>
+            <div class="like-area">
+                @if ($isLiked)
+                    <form action="{{ route('products.like', $product->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="heart-button liked" aria-label="お気に入り解除">
+                            ♥
+                        </button>
+                    </form>
+                @else
+                    <form action="{{ route('products.like', $product->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="heart-button" aria-label="お気に入り登録">
+                            ♥
+                        </button>
+                    </form>
+                @endif
+            </div>
 
-    <h2>{{ $product->product_name }}</h2>
-    <p>価格：{{ number_format($product->price) }}円</p>
-    <p>在庫：{{ $product->stock }}個</p>
-    <p>商品説明：{{ $product->description }}</p>
-    
+            @if ($product->stock > 0)
+                <a
+                    href="{{ route('products.purchase.create', $product->id) }}"
+                    class="purchase-button"
+                >
+                    カートに追加する
+                </a>
+            @else
+                <p>在庫切れのため購入できません。</p>
+            @endif
 
-    <h3>購入</h3>
+            @if (session('success'))
+                <p class="success-message">{{ session('success') }}</p>
+            @endif
 
-@if ($product->stock > 0)
-    <p>在庫数：{{ $product->stock }}個</p>
-
-    <a href="{{ route('products.purchase.create', $product->id) }}">
-        購入画面へ進む
-    </a>
-@else
-    <p>在庫切れのため購入できません。</p>
-@endif
-
-@if (session('success'))
-    <p style="color: green;">{{ session('success') }}</p>
-@endif
-
-@if ($isLiked)
-    <form action="{{ route('products.like', $product->id) }}" method="POST">
-        @csrf
-        <button type="submit">お気に入り解除</button>
-    </form>
-@else
-    <form action="{{ route('products.like', $product->id) }}" method="POST">
-        @csrf
-        <button type="submit">お気に入り登録</button>
-    </form>
-@endif
-
-    <p>
-        <a href="{{ route('products.index') }}">商品一覧に戻る</a>
-    </p>
+            <a href="{{ route('products.index') }}" class="back-link">
+                戻る
+            </a>
+        </div>
+    </div>
+</div>
 
 @endsection

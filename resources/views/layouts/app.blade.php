@@ -4,46 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Cytech EC')</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
 
-    <header>
-    <div>
-        Cytech EC
+<header class="site-header">
+    <div class="header-inner">
+        <div class="site-logo">
+            Cytech EC
+        </div>
+
+        <nav class="header-nav">
+            <a href="{{ route('products.index') }}">Home</a>
+            <a href="{{ route('mypage') }}">マイページ</a>
+        </nav>
+
+        <div class="header-user">
+            @auth
+                <span>{{ Auth::user()->name_kanji }}</span>
+
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="logout-button">
+                        ログアウト
+                    </button>
+                </form>
+            @else
+                <a href="{{ route('login') }}">ログイン</a>
+            @endauth
+        </div>
     </div>
+</header>
 
-    <nav>
-        <a href="{{ route('products.index') }}">Home</a>
-        <a href="{{ route('mypage') }}">マイページ</a>
-    </nav>
+<main class="main-content">
+    @yield('content')
+</main>
 
-    <div>
-        @auth
-            {{ Auth::user()->name_kanji }}
+<footer class="site-footer">
+    <div class="footer-inner">
 
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit">ログアウト</button>
-            </form>
-        @else
-            <a href="{{ route('login') }}">ログイン</a>
-        @endauth
+        <a href="{{ route('contact') }}" class="contact-button">
+            お問い合わせ
+        </a>
+
+        <nav class="footer-nav">
+            <a href="{{ route('products.index') }}">Home</a>
+            <a href="{{ route('mypage') }}">マイページ</a>
+        </nav>
+
+        <div class="footer-copy">
+            © 2024 Company, Inc
+        </div>
+
     </div>
-    </header>
-
-    {{-- メインコンテンツ --}}
-    <main>
-        @yield('content')
-    </main>
-
-<footer>
-    <nav>
-        <a href="{{ route('contact') }}">お問い合わせ</a>
-        <a href="{{ route('products.index') }}">Home</a>
-        <a href="{{ route('mypage') }}">マイページ</a>
-    </nav>
-
-    <p>© Cytech EC</p>
 </footer>
 
 </body>

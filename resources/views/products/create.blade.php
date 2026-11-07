@@ -4,39 +4,71 @@
 
 @section('content')
 
-    <h1>商品登録</h1>
+<div class="product-create-container">
 
-    <form action="{{ route('products.store') }}" method="POST">
+    <h1 class="page-title">商品登録</h1>
+
+    <form action="{{ route('products.store') }}" method="POST"
+        enctype="multipart/form-data" class="product-create-form">
         @csrf
 
-        <div>
-            <label for="product_name">商品名：</label>
-            <input type="text" id="product_name" name="product_name" required>
+        <div class="form-group">
+            <label for="product_name">商品名</label>
+            <input type="text" id="product_name" name="product_name"
+                value="{{ old('product_name') }}" required>
+            @error('product_name')
+                <p class="error-message">{{ $message }}</p>
+            @enderror
         </div>
 
-        <div>
-            <label for="price">価格：</label>
-            <input type="number" id="price" name="price" min="0" required>
+        <div class="form-group">
+            <label for="price">価格</label>
+            <input type="number" id="price" name="price"
+                min="0" value="{{ old('price') }}" required>
+            @error('price')
+                <p class="error-message">{{ $message }}</p>
+            @enderror
         </div>
 
-        <div>
-            <label for="stock">在庫数：</label>
-            <input type="number" id="stock" name="stock" min="0" required>
+        <div class="form-group">
+            <label for="description">商品説明</label>
+            <textarea id="description" name="description"
+                rows="5" required>{{ old('description') }}</textarea>
+            @error('description')
+                <p class="error-message">{{ $message }}</p>
+            @enderror
         </div>
 
-        <div>
-            <label for="description">商品説明：</label>
-            <textarea id="description" name="description" required></textarea>
+        <div class="form-group">
+            <label for="stock">在庫数</label>
+            <input type="number" id="stock" name="stock"
+                min="0" value="{{ old('stock') }}" required>
+            @error('stock')
+                <p class="error-message">{{ $message }}</p>
+            @enderror
         </div>
 
-        <div>
-            <label for="img_path">画像パス：</label>
-            <input type="text" id="img_path" name="img_path" placeholder="products/sample.jpg">
+        <div class="form-group">
+            <label for="img_path">商品画像</label>
+            <input type="file" id="img_path" name="img_path"
+                accept="image/jpeg,image/png,image/webp">
+            @error('img_path')
+                <p class="error-message">{{ $message }}</p>
+            @enderror
         </div>
 
-        <button type="submit">商品を登録する</button>
+        <div class="product-create-buttons">
+            <a href="{{ route('products.index') }}" class="back-link">
+                戻る
+            </a>
+
+            <button type="submit" class="purchase-button">
+                登録
+            </button>
+        </div>
+
     </form>
 
-    <p><a href="{{ route('products.index') }}">商品一覧へ戻る</a></p>
+</div>
 
 @endsection

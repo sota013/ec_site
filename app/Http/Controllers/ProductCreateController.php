@@ -19,8 +19,14 @@ class ProductCreateController extends Controller
             'price' => ['required', 'integer', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
             'description' => ['required', 'string'],
-            'img_path' => ['nullable', 'string', 'max:255'],
+            'img_path' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
+
+        $imagePath = null;
+
+        if ($request->hasFile('img_path')) {
+            $imagePath = $request->file('img_path')->store('products', 'public');
+        }
 
         Product::create([
             'user_id' => auth()->id(),
@@ -29,7 +35,7 @@ class ProductCreateController extends Controller
             'price' => $validated['price'],
             'stock' => $validated['stock'],
             'description' => $validated['description'],
-            'img_path' => $validated['img_path'] ?? null,
+            'img_path' => $imagePath,
         ]);
 
         return redirect()
